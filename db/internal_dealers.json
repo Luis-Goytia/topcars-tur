@@ -1,0 +1,17 @@
+[
+  { "dealer_id": "D-100", "official_name": "Automotores Sur Ltda.", "region": "Metropolitana" },
+  { "dealer_id": "D-200", "official_name": "Premium Automotriz", "region": "Metropolitana" },
+  { "dealer_id": "D-300", "official_name": "Norte Motor SpA", "region": "Antofagasta" },
+  { "dealer_id": "D-400", "official_name": "Viña Cars SpA", "region": "Valparaíso" },
+  { "dealer_id": "D-500", "official_name": "Ruta 5 Motors", "region": "Coquimbo" },
+  { "dealer_id": "D-600", "official_name": "Patagonia Autos", "region": "Magallanes" },
+  { "dealer_id": "D-700", "official_name": "BioBío CarCenter", "region": "Biobío" },
+  { "dealer_id": "D-800", "official_name": "Cordillera Motors", "region": "O'Higgins" },
+  { "dealer_id": "D-900", "official_name": "Pacífico Automotriz", "region": "Tarapacá" },
+  { "dealer_id": "D-1000", "official_name": "Araucanía Vehículos", "region": "La Araucanía" },
+  { "dealer_id": "D-1100", "official_name": "Los Lagos Motors", "region": "Los Lagos" },
+  { "dealer_id": "D-1200", "official_name": "CentroCar SpA", "region": "Maule" },
+  { "dealer_id": "D-1300", "official_name": "Santiago Central Autos", "region": "Metropolitana" },
+  { "dealer_id": "D-1400", "official_name": "Valdivia Motors", "region": "Los Ríos" },
+  { "dealer_id": "D-1500", "official_name": "Atacama Drive", "region": "Atacama" }
+]

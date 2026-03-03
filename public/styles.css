@@ -1,0 +1,267 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+.header {
+  padding: 1.5rem 2rem;
+  background: linear-gradient(90deg, #0f172a, #1d283a);
+  border-bottom: 1px solid #1f2937;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.subtitle {
+  margin: 0.25rem 0 0;
+  color: #9ca3af;
+  font-size: 0.9rem;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1.2fr 1.8fr;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem 2rem;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.panel {
+  background: #020617;
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem 1.25rem;
+  border: 1px solid #1e293b;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.7);
+}
+
+.panel h2 {
+  margin-top: 0;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #1f2937;
+  padding-bottom: 0.5rem;
+}
+
+.products-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 480px;
+  overflow: auto;
+}
+
+.product-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.65rem 0.75rem;
+  border-radius: 0.625rem;
+  border: 1px solid #1f2937;
+  background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.06), #020617);
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, border-color 0.1s ease, background 0.1s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-1px);
+  border-color: #38bdf8;
+  box-shadow: 0 12px 30px rgba(56, 189, 248, 0.2);
+}
+
+.product-card.selected {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.7);
+}
+
+.product-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.product-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f9fafb;
+  text-shadow: 0 1px 2px rgba(15, 23, 42, 0.8);
+}
+
+.product-meta {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.product-dealer {
+  font-size: 0.78rem;
+  color: #a5b4fc;
+}
+
+.product-id {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.badge {
+  font-size: 0.7rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 999px;
+  border: 1px solid #1f2937;
+  color: #e5e7eb;
+}
+
+.badge-region {
+  border-color: #3730a3;
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.selection-info {
+  font-size: 0.9rem;
+  color: #9ca3af;
+  margin-bottom: 0.5rem;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.btn {
+  border: none;
+  border-radius: 999px;
+  padding: 0.45rem 1.2rem;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #022c22;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(34, 197, 94, 0.35);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  color: #0f172a;
+  box-shadow: 0 10px 25px rgba(56, 189, 248, 0.35);
+}
+
+.status {
+  font-size: 0.8rem;
+  color: #e5e7eb;
+}
+
+.status.loading::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 0.35rem;
+  border-radius: 999px;
+  border: 2px solid #38bdf8;
+  border-top-color: transparent;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.summary {
+  font-size: 0.85rem;
+  color: #d1d5db;
+  margin-bottom: 0.75rem;
+}
+
+.reviews-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 360px;
+  overflow: auto;
+}
+
+.review-card {
+  padding: 0.65rem 0.75rem;
+  border-radius: 0.625rem;
+  border: 1px solid #1f2937;
+  background: radial-gradient(circle at top left, rgba(129, 140, 248, 0.08), #020617);
+}
+
+.review-card-new {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.6);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.3rem;
+}
+
+.review-source {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.review-rating {
+  font-size: 0.8rem;
+  color: #fbbf24;
+}
+
+.review-text {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.review-meta {
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.empty-state {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.footer {
+  padding: 0.75rem 2rem 1.5rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.footer a {
+  color: #38bdf8;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+

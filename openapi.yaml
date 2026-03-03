@@ -1,0 +1,286 @@
+openapi: 3.0.0
+info:
+  title: Top Cars Reviews API
+  version: 0.1.0
+tags:
+  - name: product
+    description: Operaciones sobre productos internos y sus reviews
+servers:
+  - url: http://localhost:3000
+paths:
+  /products/reviews/sync-all:
+    post:
+      tags:
+        - product
+      summary: Sincroniza y asocia reviews externas a todos los productos
+      description: Ejecuta la sincronización (LLM) para cada producto interno y devuelve un resumen por producto y errores si los hubo.
+      responses:
+        "200":
+          description: Resultado de la sincronización masiva
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SyncAllResponse"
+              examples:
+                ejemploSyncAll:
+                  summary: Ejemplo de sincronización para todos los productos
+                  value:
+                    durationMs: 12500
+                    totalProducts: 8
+                    processedProducts: 7
+                    summaries:
+                      - productId: "P-1001"
+                        totalMatched: 3
+                        newMatched: 1
+                        previouslyMatched: 2
+                        syncedAt: "2025-03-03T14:30:00.000Z"
+                      - productId: "P-2002"
+                        totalMatched: 2
+                        newMatched: 0
+                        previouslyMatched: 2
+                        syncedAt: "2025-03-03T14:30:05.000Z"
+                    errors:
+                      - productId: "P-9999"
+                        error: "Producto P-9999 no encontrado"
+        "500":
+          description: Error interno o del proveedor LLM
+  /products/reviews/prune-external:
+    post:
+      tags:
+        - product
+      summary: Elimina del pool externo las reviews ya asociadas a productos
+      description: Quita de external_reviews las reviews que ya están vinculadas a algún producto, para mantener el dataset externo limpio.
+      responses:
+        "200":
+          description: Resumen de la poda
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PruneExternalResponse"
+              examples:
+                ejemploPrune:
+                  summary: Ejemplo de poda del pool externo
+                  value:
+                    removed: 12
+                    remaining: 88
+                    totalAssociations: 8
+  /products:
+    get:
+      tags:
+        - product
+      summary: Lista todos los productos disponibles
+      responses:
+        "200":
+          description: Lista de productos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+              examples:
+                ejemploListaProductos:
+                  summary: Ejemplo de lista de productos internos
+                  value:
+                    - product_id: "P-1001"
+                      dealer_id: "D-100"
+                      brand: "Toyota"
+                      model: "Corolla Cross"
+                      description: "SUV híbrido, excelente rendimiento."
+                    - product_id: "P-2002"
+                      dealer_id: "D-200"
+                      brand: "Audi"
+                      model: "A4"
+                      description: "Sedán ejecutivo tracción integral."
+  /products/{productId}/reviews:
+    get:
+      tags:
+        - product
+      summary: Obtiene las reviews asociadas a un producto
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Reviews asociadas (puede ser vacío)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  productId:
+                    type: string
+                  reviews:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/MatchedReview"
+              examples:
+                ejemploReviewsProducto:
+                  summary: Ejemplo con dos reviews asociadas
+                  value:
+                    productId: "P-1001"
+                    reviews:
+                      - review_id: "R-9001"
+                        external_dealer_name: "DealerReviews.com"
+                        text: "Excelente SUV, muy cómoda y económica."
+                        rating: 4.8
+                        confidence: 0.97
+                      - review_id: "R-9002"
+                        external_dealer_name: "AutoOpiniones.cl"
+                        text: "Buen rendimiento en ciudad, consumo bajo."
+                        rating: 4.5
+                        confidence: 0.93
+  /products/{productId}/reviews/sync:
+    post:
+      tags:
+        - product
+      summary: Sincroniza y asocia nuevas reviews externas a un producto
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Sincronización exitosa
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  product:
+                    $ref: "#/components/schemas/Product"
+                  newReviews:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/MatchedReview"
+                  allReviews:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/MatchedReview"
+                  summary:
+                    $ref: "#/components/schemas/SyncSummary"
+              examples:
+                ejemploSyncReviews:
+                  summary: Ejemplo de sincronización con nuevas reviews
+                  value:
+                    product:
+                      product_id: "P-1001"
+                      dealer_id: "D-100"
+                      brand: "Toyota"
+                      model: "Corolla Cross"
+                      description: "SUV híbrido, excelente rendimiento."
+                    newReviews:
+                      - review_id: "R-9101"
+                        external_dealer_name: "DealerReviews.com"
+                        text: "Muy buena para viajes largos, cómoda y segura."
+                        rating: 4.9
+                        confidence: 0.98
+                    allReviews:
+                      - review_id: "R-9001"
+                        external_dealer_name: "DealerReviews.com"
+                        text: "Excelente SUV, muy cómoda y económica."
+                        rating: 4.8
+                        confidence: 0.97
+                      - review_id: "R-9002"
+                        external_dealer_name: "AutoOpiniones.cl"
+                        text: "Buen rendimiento en ciudad, consumo bajo."
+                        rating: 4.5
+                        confidence: 0.93
+                      - review_id: "R-9101"
+                        external_dealer_name: "DealerReviews.com"
+                        text: "Muy buena para viajes largos, cómoda y segura."
+                        rating: 4.9
+                        confidence: 0.98
+        "404":
+          description: Producto no encontrado
+        "500":
+          description: Error interno o del proveedor LLM
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        product_id:
+          type: string
+        dealer_id:
+          type: string
+        brand:
+          type: string
+        model:
+          type: string
+        description:
+          type: string
+    MatchedReview:
+      type: object
+      properties:
+        review_id:
+          type: string
+        external_dealer_name:
+          type: string
+        text:
+          type: string
+        rating:
+          type: number
+          nullable: true
+        confidence:
+          type: number
+          nullable: true
+    SyncSummary:
+      type: object
+      properties:
+        productId:
+          type: string
+        totalMatched:
+          type: integer
+        newMatched:
+          type: integer
+        previouslyMatched:
+          type: integer
+        syncedAt:
+          type: string
+          format: date-time
+    SyncAllResponse:
+      type: object
+      description: Respuesta de la sincronización de reviews para todos los productos
+      properties:
+        durationMs:
+          type: integer
+          description: Tiempo total de la operación en milisegundos
+        totalProducts:
+          type: integer
+          description: Número total de productos internos
+        processedProducts:
+          type: integer
+          description: Productos procesados con éxito
+        summaries:
+          type: array
+          items:
+            $ref: "#/components/schemas/SyncSummary"
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              productId:
+                type: string
+              error:
+                type: string
+    PruneExternalResponse:
+      type: object
+      description: Respuesta al podar el pool de reviews externas
+      properties:
+        removed:
+          type: integer
+          description: Cantidad de reviews eliminadas del pool externo (ya asociadas)
+        remaining:
+          type: integer
+          description: Cantidad de reviews que quedan en el pool externo
+        totalAssociations:
+          type: integer
+          description: Número de asociaciones producto-reviews consideradas
+

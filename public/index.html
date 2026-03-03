@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Top Cars Reviews - Backoffice</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1>Top Cars Reviews</h1>
+      <p class="subtitle">Demo de backoffice para sincronizar reviews externas por producto</p>
+    </header>
+
+    <main class="layout">
+      <section class="panel">
+        <h2>Productos</h2>
+        <div id="products-container" class="products-container">
+          <div class="empty-state">Cargando productos...</div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Detalle y reviews</h2>
+        <div id="selection-info" class="selection-info">
+          Selecciona un producto para ver y sincronizar reviews.
+        </div>
+        <div class="actions">
+          <button id="sync-button" class="btn" disabled>↻ Cargar reviews externas</button>
+          <button id="sync-all-button" class="btn btn-secondary">↻ Cargar todos los productos</button>
+          <span id="status" class="status"></span>
+        </div>
+        <div id="summary" class="summary"></div>
+        <div id="reviews-container" class="reviews-container"></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <a href="/api-docs" target="_blank" rel="noreferrer">Ver documentación de la API (Swagger)</a>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+  </html>
+
