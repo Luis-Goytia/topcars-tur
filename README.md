@@ -78,6 +78,12 @@ El front mínimo vive en `public/` y se sirve desde la misma API:
   3. Pulsa **“Cargar reviews externas”** para llamar a `POST /products/{productId}/reviews/sync`.
   4. Se muestran el resumen de sincronización y las reviews asociadas.
 
+## Demo en video
+
+Puedes ver una demo rápida del proyecto en este enlace:
+
+- [Video de demostración en Google Drive](https://drive.google.com/file/d/179yXinOgkekm9e06dcWfz9BwQYW9gHFp/view?usp=sharing)
+
 ## Notas sobre concurrencia y rate limits
 
 - Las llamadas al LLM se ejecutan con:
